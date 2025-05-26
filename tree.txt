@@ -1,0 +1,56 @@
+lib
+├── core
+│   ├── error
+│   │   └── failures.dart
+│   └── usecase
+│       └── usecase.dart
+├── features
+│   ├── cart
+│   │   ├── data
+│   │   │   ├── datasources
+│   │   │   │   └── cart_local_datasource.dart
+│   │   │   ├── models
+│   │   │   │   └── cart_item_model.dart
+│   │   │   └── repositories
+│   │   │       └── cart_repository_impl.dart
+│   │   ├── domain
+│   │   │   ├── entities
+│   │   │   │   └── cart_item.dart
+│   │   │   ├── repositories
+│   │   │   │   └── cart_repository.dart
+│   │   │   └── usecases
+│   │   │       ├── add_to_cart.dart
+│   │   │       ├── clear_cart.dart
+│   │   │       ├── get_cart.dart
+│   │   │       └── update_quantity.dart
+│   │   └── presentation
+│   │       ├── bloc
+│   │       │   ├── cart_bloc.dart
+│   │       │   ├── cart_event.dart
+│   │       │   └── cart_state.dart
+│   │       └── screens
+│   │           └── cart_screen.dart
+│   └── product
+│       ├── data
+│       │   ├── datasources
+│       │   │   └── product_remote_datasource.dart
+│       │   ├── models
+│       │   │   └── product_model.dart
+│       │   └── repositories
+│       │       └── product_repository_impl.dart
+│       ├── domain
+│       │   ├── entities
+│       │   │   └── product.dart
+│       │   ├── repositories
+│       │   │   └── product_repository.dart
+│       │   └── usecases
+│       │       └── get_products.dart
+│       └── presentation
+│           ├── bloc
+│           │   ├── product_bloc.dart
+│           │   ├── product_event.dart
+│           │   └── product_state.dart
+│           └── screens
+│               └── home_screen.dart
+├── injection_container.dart
+└── main.dart
