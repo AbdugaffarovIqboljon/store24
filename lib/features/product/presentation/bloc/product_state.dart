@@ -21,3 +21,12 @@ class ProductLoaded extends ProductState {
 }
 
 class ProductError extends ProductState {}
+
+class CategoriesLoaded extends ProductState {
+  final List<Category> categories;
+
+  const CategoriesLoaded(this.categories);
+
+  @override
+  List<Object> get props => [categories];
+}

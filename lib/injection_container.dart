@@ -13,40 +13,51 @@ import 'features/cart/presentation/bloc/cart_bloc.dart';
 import 'features/product/data/datasources/product_remote_datasource.dart';
 import 'features/product/data/repositories/product_repository_impl.dart';
 import 'features/product/domain/repositories/product_repository.dart';
+import 'features/product/domain/usecases/get_categories.dart';
 import 'features/product/domain/usecases/get_products.dart';
+import 'features/product/domain/usecases/get_products_by_category.dart';
 import 'features/product/presentation/bloc/product_bloc.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> init() async {
-  // Hive setup
-  // final box = await Hive.openBox<CartItemModel>('cartBox');
-  // Hive.registerAdapter(CartItemModelAdapter());
+  // Hive setup is now handled in main.dart
 
   // External
   getIt.registerLazySingleton(() => Dio());
-  // sl.registerLazySingleton<Box<CartItemModel>>(() => box);
+  getIt.registerLazySingleton<Box<CartItemModel>>(() => Hive.box<CartItemModel>('cartBox'));
 
   // Product Feature
   getIt.registerLazySingleton<ProductRemoteDataSource>(
-      () => ProductRemoteDataSourceImpl(getIt()));
+    () => ProductRemoteDataSourceImpl(getIt()),
+  );
   getIt.registerLazySingleton<ProductRepository>(
-      () => ProductRepositoryImpl(getIt()));
+    () => ProductRepositoryImpl(getIt()),
+  );
   getIt.registerLazySingleton(() => GetProducts(getIt()));
-  getIt.registerLazySingleton(() => ProductBloc(getIt())..add(FetchProductsEvent()));
+  getIt.registerLazySingleton(() => GetCategories(getIt()));
+  getIt.registerLazySingleton(() => GetProductsByCategory(getIt()));
+  getIt.registerLazySingleton(
+    () => ProductBloc(getIt(), getIt(), getIt())..add(FetchProductsEvent()),
+  );
 
   // Cart Feature
-  // sl.registerLazySingleton<CartLocalDataSource>(
-  //     () => CartLocalDataSourceImpl(sl()));
-  // sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
-  // sl.registerLazySingleton(() => AddToCart(sl()));
-  // sl.registerLazySingleton(() => GetCart(sl()));
-  // sl.registerLazySingleton(() => UpdateQuantity(sl()));
-  // sl.registerLazySingleton(() => ClearCart(sl()));
-  // sl.registerLazySingleton(() => CartBloc(
-  //       addToCart: sl(),
-  //       getCart: sl(),
-  //       updateQuantity: sl(),
-  //       clearCart: sl(),
-  //     )..add(FetchCartEvent()));
+  getIt.registerLazySingleton<CartLocalDataSource>(
+    () => CartLocalDataSourceImpl(getIt()),
+  );
+  getIt.registerLazySingleton<CartRepository>(
+    () => CartRepositoryImpl(getIt()),
+  );
+  getIt.registerLazySingleton(() => AddToCart(getIt()));
+  getIt.registerLazySingleton(() => GetCart(getIt()));
+  getIt.registerLazySingleton(() => UpdateQuantity(getIt()));
+  getIt.registerLazySingleton(() => ClearCart(getIt()));
+  getIt.registerLazySingleton(
+    () => CartBloc(
+      addToCart: getIt(),
+      getCart: getIt(),
+      updateQuantity: getIt(),
+      clearCart: getIt(),
+    ),
+  );
 }
